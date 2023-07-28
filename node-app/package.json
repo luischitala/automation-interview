@@ -1,0 +1,19 @@
+{
+    "name": "my-express-app",
+    "version": "1.0.0",
+    "description": "A simple Express.js application",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "pg": "^8.7.1",
+      "puppeteer": "^10.2.0",
+      "axios": "^0.24.0",   
+      "cheerio": "^1.0.0-rc.12",  
+      "dotenv": "^10.0.0",
+      "sequelize": "^6.6.5"
+    }
+  }
+  

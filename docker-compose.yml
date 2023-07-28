@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: my_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./static-html:/usr/share/nginx/html:ro
+    networks:
+      - my_network
+
+  node:
+    build:
+      context: ./node-app
+    container_name: my_node
+    working_dir: /usr/src/app
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+
+  fastapi:
+    build:
+      context: ./python-app
+    container_name: my_fastapi
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+
+  postgres:
+    image: postgres:alpine
+    container_name: my_postgres
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+volumes:
+  pgdata:  
+    driver: local
+
+networks:
+  my_network:
+    driver: bridge
